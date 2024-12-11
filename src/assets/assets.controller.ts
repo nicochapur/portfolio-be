@@ -1,27 +1,27 @@
-import { Controller, Get, Request, Post, Body, Delete, UseGuards } from "@nestjs/common";
+import {
+  Controller,
+  Get,
+  Request,
+  Post,
+  Body,
+  UseGuards,
+} from '@nestjs/common';
 import { AssetsService } from './assets.service';
-import { AuthGuard } from '@nestjs/passport';
 import { AssetDto } from './dto/asset.dto';
-class JwtAuthGuard extends AuthGuard('jwt') {}
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+
 @Controller('assets')
 @UseGuards(JwtAuthGuard)
 export class AssetsController {
   constructor(private readonly assetsService: AssetsService) {}
 
   @Get('')
-  async get(): Promise<AssetDto[]> {
-    return await this.assetsService.getAssets();
+  async get(@Request() req): Promise<AssetDto[]> {
+    return await this.assetsService.getAssets(req.user.id);
   }
 
   @Post('')
   async create(@Request() req, @Body() body: AssetDto): Promise<any> {
-    console.log(req.user);
-    // console.log(body);
-    // return await this.assetsService.createAsset(body);
+    return await this.assetsService.createAsset(req.user.id, body);
   }
-  //
-  // @Delete('')
-  // async delete(
-  //
-  // )
 }

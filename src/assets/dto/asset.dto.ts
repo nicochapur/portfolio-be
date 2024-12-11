@@ -1,11 +1,16 @@
+import { IsNotEmpty } from 'class-validator';
 
 export class AssetDto {
+  @IsNotEmpty()
   symbol: string;
 
+  @IsNotEmpty()
   amount: number;
 
+  @IsNotEmpty()
   price: number;
 
+  @IsNotEmpty()
   type: string;
 
   constructor(data: AssetDto) {
