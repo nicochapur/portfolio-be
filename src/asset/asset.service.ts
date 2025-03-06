@@ -3,7 +3,7 @@ import { PrismaService } from '../prisma.service';
 import { AssetDto } from './dto/asset.dto';
 
 @Injectable()
-export class AssetsService {
+export class AssetService {
   constructor(private prisma: PrismaService) {}
 
   async getAssets(userId: string) {
@@ -18,5 +18,13 @@ export class AssetsService {
   async createAsset(userId: string, body: AssetDto) {
     const res = await this.prisma.asset.create({ data: { userId, ...body } });
     return res;
+  }
+
+  async deleteAsset(id: string) {
+    return await this.prisma.asset.delete({
+      where: {
+        id,
+      },
+    });
   }
 }
