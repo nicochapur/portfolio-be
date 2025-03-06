@@ -39,7 +39,7 @@ export class AuthService {
     loginDTO.email = loginDTO.email.toLowerCase();
     const auth = await this.authRepository.findByEmail(loginDTO.email);
     if (!auth) {
-      throw new HttpException('Email already exists', HttpStatus.NOT_FOUND);
+      throw new HttpException('Email does not exist', HttpStatus.NOT_FOUND);
     }
     const isCorrectPassword = await this.comparePassword(
       loginDTO.password,
